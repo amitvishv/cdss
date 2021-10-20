@@ -1,21 +1,22 @@
 from rest_framework.parsers import FormParser, MultiPartParser
-from doctorapp.models import DoctorModel, MedicalHistory
-from doctorapp.serializers import FileSerializer, MedicalHistorySerializer
+from doctorapp.models import Doctor, MedicalHistory
+from doctorapp.serializers import DoctorSerializer, MedicalHistorySerializer
 from rest_framework import generics
 from rest_framework import permissions
+from doctorapp.helpers import IsDoctor
 
 
 class DoctorApiView(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,IsDoctor)
     parser_classes = (MultiPartParser, FormParser)
-    model = DoctorModel
-    serializer_class = FileSerializer
+    model = Doctor
+    serializer_class = DoctorSerializer
 
 
 class HistoryListApiView(generics.ListAPIView):
 
     permission_classes = (
-        permissions.IsAuthenticated,
+        permissions.IsAuthenticated, IsDoctor
     )
     model = MedicalHistory
     serializer_class = MedicalHistorySerializer

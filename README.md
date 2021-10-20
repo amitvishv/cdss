@@ -24,7 +24,7 @@
 <br><br>
 `GET  http:/127.0.0.1:8000/admin`  `Provide Fincode in url bar`
 <br><br>
-`Username:`  `amit`
+`Username:`  `amit123`
 <br>
 `Password:`   `Amit0000`
 <br><br>

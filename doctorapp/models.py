@@ -1,9 +1,9 @@
 from django.db import models
-from doctorapp.helpers import ChoiceMaxlength, EventChoice
+from doctorapp.helpers import ChoiceMaxlength, EventChoice, UserType
 from django.contrib.auth.models import AbstractUser
 
 
-class HospitalModel(models.Model):
+class Hospital(models.Model):
     name = models.CharField(max_length=200)
     address = models.TextField()
 
@@ -13,21 +13,27 @@ class HospitalModel(models.Model):
 
 class User(AbstractUser):
     hospitalname = models.ForeignKey(
-        HospitalModel,
+        Hospital,
         related_name='hospitalname',
         blank=True,
         null=True,
         on_delete=models.CASCADE
     )
+    user_type = models.CharField(
+        max_length=ChoiceMaxlength,
+        choices=UserType,
+        default='Admin',
+        help_text="Please Select one of them"
+    )
 class MedicalHistory(models.Model):
-    adharno = models.IntegerField()
+    adharno = models.CharField(max_length=12, default="0")
     file = models.FileField(upload_to='medical-history')
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.adharno)
 
-class DoctorModel(models.Model):
+class Doctor(models.Model):
     event_type = models.CharField(
         max_length=ChoiceMaxlength,
         choices=EventChoice,
